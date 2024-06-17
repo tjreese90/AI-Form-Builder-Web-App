@@ -14,39 +14,19 @@ export async function POST(request: Request): Promise<Response> {
 		});
 	const [{ insertedId }] = newFormSubmission;
 
-	await db.transaction(
-		async (tx: {
-			insert: (arg0: any) => {
-				(): any;
-				new (): any;
-				values: {
-					(arg0: any): {
-						(): any;
-						new (): any;
-						returning: {
-							(arg0: { answerId: any }):
-								| PromiseLike<[{ answerId: any }]>
-								| [{ answerId: any }];
-							new (): any;
-						};
-					};
-					new (): any;
-				};
-			};
-		}) => {
-			for (const answer of data.answers) {
-				const [{ answerId }] = await tx
-					.insert(dbAnswers)
-					.values({
-						formSubmissionId: insertedId,
-						...answer,
-					})
-					.returning({
-						answerId: dbAnswers.id,
-					});
-			}
+	await db.transaction(async (tx) => {
+		for (const answer of data.answers) {
+			const [{ answerId }] = await tx
+				.insert(dbAnswers)
+				.values({
+					formSubmissionId: insertedId,
+					...answer,
+				})
+				.returning({
+					answerId: dbAnswers.id,
+				});
 		}
-	);
+	});
 
 	return Response.json({ formSubmissionsId: insertedId }, { status: 200 });
 }
