@@ -53,6 +53,8 @@ const FormGenerator = (props: TypeFormGeneratorProps) => {
 		if (state.message === 'success' && state.data?.form) {
 			setOpen(false);
 			// Update the local state with the new form
+
+			//@ts-ignore Come fix the data form later.
 			setForms((prevForms) => [...prevForms, state.data.form]);
 		}
 		console.log(state.data);
