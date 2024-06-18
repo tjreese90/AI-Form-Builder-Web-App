@@ -1,6 +1,0 @@
-import type { AuthAction } from "../../types.js";
-import type { AuthConfig } from "../../index.js";
-/** Set default env variables on the config object */
-export declare function setEnvDefaults(envObject: any, config: AuthConfig): void;
-export declare function createActionURL(action: AuthAction, protocol: string, headers: Headers, envObject: any, basePath?: string): URL;
-//# sourceMappingURL=env.d.ts.map

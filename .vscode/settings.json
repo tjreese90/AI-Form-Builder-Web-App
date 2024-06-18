@@ -1,5 +1,22 @@
 {
-    "cSpell.words": [
-        "tjreese"
-    ]
+	"cSpell.words": [
+        "Shadcdn",
+        "tailwindcss",
+        "tjreese",
+        "valibot"
+    ],
+
+	"tailwindCSS.includeLanguages": {
+		"plaintext": "html",
+		"javascript": "javascript",
+		"typescript": "typescript",
+		"javascriptreact": "javascriptreact",
+		"typescriptreact": "typescriptreact"
+	},
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+    "tailwindCSS.validate": true,
+    "WillLuke.nextjs.addTypesOnSave": true,
+    "WillLuke.nextjs.hasPrompted": true
 }
