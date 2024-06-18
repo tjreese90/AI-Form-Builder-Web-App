@@ -1,9 +1,10 @@
 {
-	"extends": ["next/babel", "next/core-web-vitals"],
-	"parserOptions": {
-		"requireConfigFile": false,
-		"babelOptions": {
-			"presets": ["next/babel"]
-		}
+	"extends": [
+		"@babel/plugin-transform-private-property-in-object",
+		"next/core-web-vitals"
+	],
+
+	"rules": {
+		"import/no-unresolved": [2, { "ignore": ["next/babel"] }]
 	}
 }
