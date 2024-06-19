@@ -1,13 +1,11 @@
-import Header from '@/components/ui/header';
-import LandingPage from '../src/app/landing-page/index';
+import React from 'react';
 
-export default function Home() {
+const HomePage = () => {
 	return (
-		<>
-			<Header />
-			<main className='flex min-h-screen flex-col items-center'>
-				<LandingPage />
-			</main>
-		</>
+		<div>
+			<h1>Welcome to AI Form Builder</h1>
+		</div>
 	);
-}
+};
+
+export default HomePage;

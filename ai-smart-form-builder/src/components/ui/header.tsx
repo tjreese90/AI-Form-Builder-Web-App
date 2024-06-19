@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { auth, signOut } from '@/auth';
 import { Button } from './button';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ function SignOut() {
 	return (
 		<form
 			action={async () => {
+				'use server';
 				await signOut();
 			}}
 		>
@@ -18,8 +19,8 @@ function SignOut() {
 	);
 }
 
-const Header: React.FC<Props> = (props) => {
-	const { data } = useSession();
+const Header = async (props: Props) => {
+	const session = await auth();
 
 	return (
 		<header className='border bottom-1'>
@@ -27,15 +28,15 @@ const Header: React.FC<Props> = (props) => {
 				<div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
 					<h1>AI Form Builder</h1>
 					<div>
-						{data?.user ? (
+						{session?.user ? (
 							<div className='flex items-center gap-4'>
 								<Link href='/view-forms'>
 									<Button variant='outline'>Dashboard</Button>
 								</Link>
-								{data.user.name && data.user.image && (
+								{session.user.name && session.user.image && (
 									<Image
-										src={data.user.image}
-										alt={data.user.name}
+										src={session.user.image}
+										alt={session.user.name}
 										width={32}
 										height={32}
 										className='rounded-full'
@@ -45,9 +46,7 @@ const Header: React.FC<Props> = (props) => {
 							</div>
 						) : (
 							<Link href='/api/auth/signin'>
-								<Button variant='link' onClick={() => signIn()}>
-									Sign in
-								</Button>
+								<Button variant='link'>Sign in</Button>
 							</Link>
 						)}
 					</div>
