@@ -1,5 +1,7 @@
-import React from 'react';
-import { auth, signOut } from '@/auth';
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { signOut, getSession } from 'next-auth/react';
 import { Button } from './button';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,20 +9,44 @@ import Link from 'next/link';
 type Props = {};
 
 function SignOut() {
+	const handleSignOut = async () => {
+		await signOut();
+	};
+
 	return (
-		<form
-			action={async () => {
-				'use server';
-				await signOut();
-			}}
-		>
-			<Button type='submit'>Sign out</Button>
-		</form>
+		<Button type='button' onClick={handleSignOut}>
+			Sign out
+		</Button>
 	);
 }
 
-const Header = async (props: Props) => {
-	const session = await auth();
+const Header: React.FC<Props> = () => {
+	const [session, setSession] = useState<any>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchSession = async () => {
+			try {
+				const sessionData = await getSession();
+				setSession(sessionData);
+			} catch (err) {
+				console.error('Error fetching session:', err);
+				setError('Failed to fetch session data.');
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchSession();
+	}, []);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>{error}</div>;
+	}
 
 	return (
 		<header className='border bottom-1'>

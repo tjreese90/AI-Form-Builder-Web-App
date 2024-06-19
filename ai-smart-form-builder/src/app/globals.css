@@ -4,7 +4,7 @@
 
 @layer base {
 	:root {
-		--background: 0 0% 100%; /* Your light mode background color */
+		--background: 0 0% 100%;
 		--foreground: 224 71.4% 4.1%;
 		--card: 0 0% 100%;
 		--card-foreground: 224 71.4% 4.1%;
@@ -27,7 +27,7 @@
 	}
 
 	.dark {
-		--background: 224 71.4% 4.1%; /* Your dark mode background color */
+		--background: 224 71.4% 4.1%;
 		--foreground: 210 20% 98%;
 		--card: 224 71.4% 4.1%;
 		--card-foreground: 210 20% 98%;
@@ -47,32 +47,13 @@
 		--input: 215 27.9% 16.9%;
 		--ring: 263.4 70% 50.4%;
 	}
-
-	.border-border {
-		border-width: 1px;
-		border-style: solid;
-		border-color: #e5e7eb;
-		/* Or your desired border color */
-	}
-}
-
-@layer utilities {
-	body {
-		@apply bg-[color:var(--background)] text-foreground;
-	}
-}
-
-/* globals.css (@apply method) */
-body {
-	background-color: var(--background);
-}
-
-.dark body {
-	background-color: var(--dark-background);
 }
 
 @layer base {
 	* {
 		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
 	}
 }

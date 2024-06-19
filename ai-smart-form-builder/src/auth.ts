@@ -2,11 +2,13 @@ import NextAuth, { type Session, type User } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from './db/index';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-export const authOptions = {
+export const {
+	handlers: { GET, POST },
+	auth,
+	signIn,
+	signOut,
+} = NextAuth({
 	adapter: DrizzleAdapter(db),
 	providers: [
 		GoogleProvider({
@@ -17,12 +19,9 @@ export const authOptions = {
 	callbacks: {
 		async session({ session, user }: { session: Session; user?: User }) {
 			if (user && session?.user) {
-				session.user.id = user.id;
+				session.user.id = user.id || '';
 			}
 			return session;
 		},
 	},
-	debug: true,
-};
-
-export default NextAuth(authOptions);
+});

@@ -11,8 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-
-import { generateForm } from '@/actions/generateForm';
+import { generateForm } from '../actions/generateForm';
 import { useFormState, useFormStatus } from 'react-dom';
 
 import { useSession, signIn } from 'next-auth/react';

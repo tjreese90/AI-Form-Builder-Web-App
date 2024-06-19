@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@auth/core": "^0.32.0",
 		"@auth/drizzle-adapter": "^0.4.0",
 		"@google/generative-ai": "^0.13.0",
 		"@hookform/resolvers": "^3.3.4",
@@ -21,14 +22,15 @@
 		"@radix-ui/react-switch": "^1.0.3",
 		"@stripe/stripe-js": "^2.4.0",
 		"@tanstack/react-table": "^8.11.7",
-		"@types/dotenv": "^8.2.0",
+		"auth": "^1.0.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
-		"dotenv": "^16.4.5",
+		"dompurify": "^3.1.5",
 		"drizzle-orm": "^0.29.5",
+		"knex": "^3.1.0",
 		"lucide-react": "^0.309.0",
 		"next": "^14.2.4",
-		"next-auth": "^5.0.0-beta.5",
+		"next-auth": "^5.0.0-beta.19",
 		"next-plausible": "^3.12.0",
 		"pg": "^8.11.3",
 		"postgres": "^3.4.4",
@@ -38,7 +40,7 @@
 		"stripe": "^14.14.0",
 		"tailwind-merge": "^2.2.0",
 		"tailwindcss-animate": "^1.0.7",
-		"winston": "^3.13.0",
+		"trusted-types": "^2.0.0",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {

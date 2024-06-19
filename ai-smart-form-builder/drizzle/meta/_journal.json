@@ -1,13 +1,20 @@
 {
-	"version": "5",
-	"dialect": "pg",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1706725403234,
-			"tag": "0000_blue_logan",
-			"breakpoints": true
-		}
-	]
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1706725403234,
+      "tag": "0000_blue_logan",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1718830990026,
+      "tag": "0001_slippery_talisman",
+      "breakpoints": true
+    }
+  ]
 }

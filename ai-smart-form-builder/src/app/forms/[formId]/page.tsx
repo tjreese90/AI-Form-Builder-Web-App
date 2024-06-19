@@ -2,23 +2,19 @@ import React from 'react';
 import { db } from '@/db';
 import { forms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { auth } from '@/auth';
 import Form from '../Form';
+import { FormModel } from '@/types/form-types';
 
-const page = async ({
-	params,
-}: {
-	params: {
-		formId: string;
-	};
-}) => {
+const Page = async ({ params }: { params: { formId: string } }) => {
 	const formId = params.formId;
+
+	console.log('Form ID:', formId);
 
 	if (!formId) {
 		return <div>Form not found</div>;
 	}
 
-	const form = await db.query.forms.findFirst({
+	const form = (await db.query.forms.findFirst({
 		where: eq(forms.id, parseInt(formId)),
 		with: {
 			questions: {
@@ -27,7 +23,9 @@ const page = async ({
 				},
 			},
 		},
-	});
+	})) as FormModel;
+
+	console.log('Form Data:', form);
 
 	if (!form) {
 		return <div>Form not found</div>;
@@ -35,4 +33,4 @@ const page = async ({
 
 	return <Form form={form} />;
 };
-export default page;
+export default Page;
