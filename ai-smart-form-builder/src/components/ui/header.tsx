@@ -52,7 +52,7 @@ const Header: React.FC<Props> = () => {
 		<header className='border bottom-1'>
 			<nav className='bg-white border-gray-200 px-4 py-2.5'>
 				<div className='flex flex-wrap justify-between items-center mx-auto max-w-screen-xl'>
-					<h1>AI Form Builder</h1>
+					<h1>Gemini AI Form Builder</h1>
 					<div>
 						{session?.user ? (
 							<div className='flex items-center gap-4'>

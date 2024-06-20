@@ -1,26 +1,20 @@
+// index.tsx
 'use client';
 import React, { useState, useEffect } from 'react';
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 	DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { useFormState, useFormStatus } from 'react-dom';
-
 import { useSession, signIn } from 'next-auth/react';
-import { navigate } from '../actions/navigateToForm';
-
 import { Plus } from 'lucide-react';
 import { usePlausible } from 'next-plausible';
-
-type Props = {};
 
 const initialState: {
 	message: string;
@@ -28,6 +22,10 @@ const initialState: {
 } = {
 	message: '',
 };
+
+function navigate(formId: string) {
+	window.location.href = `/forms/edit/${formId}`;
+}
 
 export function SubmitButton() {
 	const { pending } = useFormStatus();
@@ -38,16 +36,16 @@ export function SubmitButton() {
 	);
 }
 
-const FormGenerator = (props: Props) => {
+const FormGenerator = () => {
 	const [state, formAction] = useFormState(generateForm, initialState);
 	const [open, setOpen] = useState(false);
 	const session = useSession();
 	const plausible = usePlausible();
 
 	useEffect(() => {
-		if (state.message === 'success') {
+		if (state.message === 'success' && state.data?.form?.formId) {
 			setOpen(false);
-			navigate(state.data.formId);
+			navigate(state.data.form.formId);
 		}
 	}, [state.message]);
 

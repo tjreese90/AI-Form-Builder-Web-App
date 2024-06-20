@@ -94,7 +94,7 @@ export const questions = pgTable('questions', {
 	id: serial('id').primaryKey(),
 	text: text('text'),
 	fieldType: formElements('field_type'),
-	formId: integer('form_id'),
+	formId: integer('form_id').references(() => forms.id),
 });
 
 export const questionsRelations = relations(questions, ({ one, many }) => ({
@@ -110,7 +110,7 @@ export const fieldOptions = pgTable('field_options', {
 	id: serial('id').primaryKey(),
 	text: text('text'),
 	value: text('value'),
-	questionId: integer('question_id'),
+	questionId: integer('question_id').references(() => questions.id),
 });
 
 export const fieldOptionsRelations = relations(fieldOptions, ({ one }) => ({
@@ -123,9 +123,11 @@ export const fieldOptionsRelations = relations(fieldOptions, ({ one }) => ({
 export const answers = pgTable('answers', {
 	id: serial('id').primaryKey(),
 	value: text('value'),
-	questionId: integer('question_id'),
-	formSubmissionId: integer('form_submission_id'),
-	fieldOptionsId: integer('field_options_id'),
+	questionId: integer('question_id').references(() => questions.id),
+	formSubmissionId: integer('form_submission_id').references(
+		() => formSubmissions.id
+	),
+	fieldOptionsId: integer('field_options_id').references(() => fieldOptions.id),
 });
 
 export const answersRelations = relations(answers, ({ one }) => ({
@@ -145,7 +147,7 @@ export const answersRelations = relations(answers, ({ one }) => ({
 
 export const formSubmissions = pgTable('form_submissions', {
 	id: serial('id').primaryKey(),
-	formId: integer('form_id'),
+	formId: integer('form_id').references(() => forms.id),
 });
 
 export const formSubmissionsRelations = relations(
