@@ -1,6 +1,8 @@
+import React from 'react';
 import { db } from '@/db';
 import { forms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import { auth } from '@/auth';
 import Form from '../Form';
 import { FormModel } from '@/types/form-types';
 
@@ -17,7 +19,9 @@ const page = async ({
 		return <div>Form not found</div>;
 	}
 
-	const form = (await db.query.forms.findFirst({
+	const session = await auth();
+	const userId = session?.user?.id;
+	const form = await db.query.forms.findFirst({
 		where: eq(forms.id, parseInt(formId)),
 		with: {
 			questions: {
@@ -26,12 +30,18 @@ const page = async ({
 				},
 			},
 		},
-	})) as FormModel;
+	});
 
-	if (!form) {
-		return <div>Form not found</div>;
+	if (!form || userId !== form.userId) {
+		return <div>You are not authorized to view this page</div>;
 	}
+	// Ensure non-null values for required properties
+	const formData = {
+		...form,
+		name: form.name || 'Unnamed Form',
+		description: form.description || 'No description available',
+	} as unknown as FormModel;
 
-	return <Form form={form} />;
+	return <Form form={formData} editMode={true} />;
 };
 export default page;

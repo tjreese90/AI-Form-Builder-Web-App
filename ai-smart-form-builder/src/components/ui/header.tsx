@@ -81,5 +81,4 @@ const Header: React.FC<Props> = () => {
 		</header>
 	);
 };
-
 export default Header;

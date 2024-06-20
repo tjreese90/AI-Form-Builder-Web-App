@@ -1,10 +1,8 @@
 {
-  "id": "11292900-5ea6-4a76-9d58-20cc92a26714",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "tables": {
-    "account": {
+    "public.account": {
       "name": "account",
       "schema": "",
       "columns": {
@@ -80,15 +78,15 @@
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -102,7 +100,7 @@
       },
       "uniqueConstraints": {}
     },
-    "answers": {
+    "public.answers": {
       "name": "answers",
       "schema": "",
       "columns": {
@@ -142,47 +140,47 @@
         "answers_question_id_questions_id_fk": {
           "name": "answers_question_id_questions_id_fk",
           "tableFrom": "answers",
-          "tableTo": "questions",
           "columnsFrom": [
             "question_id"
           ],
+          "tableTo": "questions",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "answers_form_submission_id_form_submissions_id_fk": {
           "name": "answers_form_submission_id_form_submissions_id_fk",
           "tableFrom": "answers",
-          "tableTo": "form_submissions",
           "columnsFrom": [
             "form_submission_id"
           ],
+          "tableTo": "form_submissions",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "answers_field_options_id_field_options_id_fk": {
           "name": "answers_field_options_id_field_options_id_fk",
           "tableFrom": "answers",
-          "tableTo": "field_options",
           "columnsFrom": [
             "field_options_id"
           ],
+          "tableTo": "field_options",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "field_options": {
+    "public.field_options": {
       "name": "field_options",
       "schema": "",
       "columns": {
@@ -216,21 +214,21 @@
         "field_options_question_id_questions_id_fk": {
           "name": "field_options_question_id_questions_id_fk",
           "tableFrom": "field_options",
-          "tableTo": "questions",
           "columnsFrom": [
             "question_id"
           ],
+          "tableTo": "questions",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "form_submissions": {
+    "public.form_submissions": {
       "name": "form_submissions",
       "schema": "",
       "columns": {
@@ -252,21 +250,21 @@
         "form_submissions_form_id_forms_id_fk": {
           "name": "form_submissions_form_id_forms_id_fk",
           "tableFrom": "form_submissions",
-          "tableTo": "forms",
           "columnsFrom": [
             "form_id"
           ],
+          "tableTo": "forms",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "forms": {
+    "public.forms": {
       "name": "forms",
       "schema": "",
       "columns": {
@@ -306,7 +304,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "questions": {
+    "public.questions": {
       "name": "questions",
       "schema": "",
       "columns": {
@@ -340,21 +338,21 @@
         "questions_form_id_forms_id_fk": {
           "name": "questions_form_id_forms_id_fk",
           "tableFrom": "questions",
-          "tableTo": "forms",
           "columnsFrom": [
             "form_id"
           ],
+          "tableTo": "forms",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "session": {
+    "public.session": {
       "name": "session",
       "schema": "",
       "columns": {
@@ -382,21 +380,21 @@
         "session_userId_user_id_fk": {
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -448,7 +446,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verificationToken": {
+    "public.verificationToken": {
       "name": "verificationToken",
       "schema": "",
       "columns": {
@@ -486,21 +484,24 @@
     }
   },
   "enums": {
-    "field_type": {
+    "public.field_type": {
       "name": "field_type",
-      "values": {
-        "RadioGroup": "RadioGroup",
-        "Select": "Select",
-        "Input": "Input",
-        "Textarea": "Textarea",
-        "Switch": "Switch"
-      }
+      "schema": "public",
+      "values": [
+        "RadioGroup",
+        "Select",
+        "Input",
+        "Textarea",
+        "Switch"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "11292900-5ea6-4a76-9d58-20cc92a26714",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

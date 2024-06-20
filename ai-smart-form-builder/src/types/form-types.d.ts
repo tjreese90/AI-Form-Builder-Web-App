@@ -2,7 +2,7 @@ export interface FormSelectModel {
 	id: number;
 	name: string | null;
 	description: string | null;
-	userId: string | null;
+	user_Id: string | null;
 	published: boolean | null;
 }
 
