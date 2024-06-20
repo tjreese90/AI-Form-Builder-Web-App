@@ -1,19 +1,23 @@
-import React from 'react';
 import { db } from '@/db';
 import { forms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
-import { getSession } from 'next-auth/react';
+import { auth } from '@/auth';
 import Form from '../../Form';
 import { FormModel } from '@/types/form-types';
-
-const Page = async ({ params }: { params: { formId: string } }) => {
+const page = async ({
+	params,
+}: {
+	params: {
+		formId: string;
+	};
+}) => {
 	const formId = params.formId;
 
 	if (!formId) {
 		return <div>Form not found</div>;
 	}
 
-	const session = await getSession();
+	const session = await auth();
 	const userId = session?.user?.id;
 	const form = (await db.query.forms.findFirst({
 		where: eq(forms.id, parseInt(formId)),
@@ -29,7 +33,6 @@ const Page = async ({ params }: { params: { formId: string } }) => {
 	if (!form || userId !== form.userId) {
 		return <div>You are not authorized to view this page</div>;
 	}
-
 	// Ensure non-null values for required properties
 	const formData = {
 		...form,
@@ -39,5 +42,4 @@ const Page = async ({ params }: { params: { formId: string } }) => {
 
 	return <Form form={formData} editMode={true} />;
 };
-
-export default Page;
+export default page;
