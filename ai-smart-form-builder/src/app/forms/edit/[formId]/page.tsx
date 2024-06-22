@@ -57,13 +57,12 @@ const Page = async ({ params }: { params: any }) => {
 		return <div>Form not found</div>;
 	}
 
-	const formUserId = form.user_Id ? parseInt(form?.user_Id, 10) : 0;
+	const formUserId = form.userId ? parseInt(form?.userId, 10) : 0;
 	if (isNaN(formUserId)) {
 		console.error('Form User ID is not a valid integer');
 		return <div>Form not found</div>;
 	}
-	console.log('parseUserID',parsedUserId);
-	console.log('FormUserID', formUserId);
+
 	if (parsedUserId !== formUserId) {
 		console.warn('User is not authorized to view this page');
 		return <div>You are not authorized to view this page</div>;

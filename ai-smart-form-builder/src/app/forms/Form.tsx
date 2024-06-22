@@ -18,6 +18,7 @@ import FormField from './FormField';
 import { publishForm } from '../actions/mutateForm';
 import FormPublishSuccess from './FormPublishSuccess';
 import { useRouter } from 'next/navigation';
+import { submitAnswers, type Answer } from '../actions/submitAnswers';
 
 type Props = {
 	form: FormModel;
@@ -48,11 +49,7 @@ const Form = (props: Props) => {
 			await publishForm(props.form.id);
 			setSuccessDialogOpen(true);
 		} else {
-			let answers: Array<{
-				questionId: number;
-				fieldOptionsId: number | null;
-				value: string | null;
-			}> = [];
+			let answers: Answer[] = [];
 			for (const [questionId, value] of Object.entries(data)) {
 				const id = parseInt(questionId.replace('question_', ''));
 				let fieldOptionsId = null;
@@ -69,6 +66,14 @@ const Form = (props: Props) => {
 					fieldOptionsId,
 					value: textValue,
 				});
+			}
+			const response1 = await submitAnswers({
+				formId: props.form.id,
+				answers,
+			});
+
+			if (response1) {
+				router.push('/forms/submit-success');
 			}
 
 			const baseUrl =

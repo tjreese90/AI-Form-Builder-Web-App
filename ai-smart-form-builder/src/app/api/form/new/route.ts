@@ -3,6 +3,7 @@ import { forms, formSubmissions, answers as dbAnswers } from '@/db/schema';
 
 export async function POST(request: Request): Promise<Response> {
 	const data = await request.json();
+	console.log(data);
 
 	const newFormSubmission = await db
 		.insert(formSubmissions)

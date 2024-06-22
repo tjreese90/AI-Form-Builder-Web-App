@@ -14,6 +14,7 @@ import {
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
+	getSortedRowModel,
 } from '@tanstack/react-table';
 
 type FieldOption = InferSelectModel<typeof fieldOptions>;
@@ -72,23 +73,41 @@ export function Table(props: TableProps) {
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		initialState: {
+			sorting: [
+				{
+					id: 'id',
+					desc: false,
+				},
+			],
+		},
 	});
 
 	return (
 		<div className='p-2 mt-4'>
 			<div className='shadow overflow-hidden border border-gray-200 sm:rounded-lg'>
-				<table>
-					<thead>
+				<table className='min-w-full divide-y divide-gray-200'>
+					<thead className='bg-gray-50 sticky top-0 z-10'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<tr key={headerGroup.id} className='border-b'>
 								{headerGroup.headers.map((header) => (
-									<th key={header.id} className='text-left p-3'>
+									<th
+										key={header.id}
+										className='text-left p-3 cursor-pointer'
+										onClick={header.column.getToggleSortingHandler()}
+									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
 													header.column.columnDef.header,
 													header.getContext()
 											  )}
+										{header.column.getIsSorted()
+											? header.column.getIsSorted() === 'desc'
+												? ' 🔽'
+												: ' 🔼'
+											: ''}
 									</th>
 								))}
 							</tr>
@@ -96,7 +115,13 @@ export function Table(props: TableProps) {
 					</thead>
 					<tbody className='divide-y divide-gray-200'>
 						{table.getRowModel().rows.map((row) => (
-							<tr key={row.id} className='py-2'>
+							<tr
+								key={row.id}
+								className='hover:bg-gray-100'
+								style={{
+									backgroundColor: row.index % 2 === 0 ? 'white' : '#f9fafb',
+								}}
+							>
 								{row.getVisibleCells().map((cell) => (
 									<td key={cell.id} className='p-3'>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}

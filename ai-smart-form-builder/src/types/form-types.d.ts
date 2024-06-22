@@ -22,6 +22,8 @@ export interface FieldOptionSelectModel {
 }
 
 export interface FormModel extends FormSelectModel {
+    userId: string;
+    userId: any;
 	questions: Array<
 		QuestionSelectModel & {
 			fieldOptions: FieldOptionSelectModel[];

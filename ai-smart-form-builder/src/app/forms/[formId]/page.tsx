@@ -31,7 +31,9 @@ const page = async ({
 			},
 		},
 	});
-
+	console.log('Form', form);
+	console.log('user', userId);
+	console.log('form.user', form?.userId);
 	if (!form || userId !== form.userId) {
 		return <div>You are not authorized to view this page</div>;
 	}
