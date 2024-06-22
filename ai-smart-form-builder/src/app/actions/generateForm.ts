@@ -99,7 +99,6 @@ export async function generateForm(
 	logger.info('Parsed data:', data);
 
 	let requestBody = `${data.description} ${PROMPT_EXPLANATION}`;
-	let fullResponseContent = '';
 	let responseObj: FormResponse | null = null;
 
 	for (let attempt = 1; attempt <= CONFIG.MAX_RETRIES; attempt++) {
@@ -112,7 +111,6 @@ export async function generateForm(
 			responseObj = await getCachedResponse(data.description, requestBody);
 
 			if (responseObj) {
-				fullResponseContent = ''; // Reset for next parts if needed
 				if (isResponseComplete(responseObj)) {
 					const formId = await saveForm(responseObj); // Save the form and get the form ID
 					responseObj.formId = formId.toString();

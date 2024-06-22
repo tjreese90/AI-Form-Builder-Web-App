@@ -5,4 +5,4 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export const MAX_FREE_FROMS = 3;
+export const MAX_FREE_FROMS = 25;

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
 	Select,
@@ -8,14 +8,12 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { FormControl, FormLabel } from '@/components/ui/form';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { QuestionSelectModel } from '@/types/form-types';
 import { FieldOptionSelectModel } from '@/types/form-types';
 import { Label } from '@/components/ui/label';
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
+import { Switch } from '@/components/ui/switch';
 
 type Props = {
 	element: QuestionSelectModel & {
@@ -26,8 +24,6 @@ type Props = {
 };
 
 const FormField = ({ element, value, onChange }: Props) => {
-	if (!element) return null;
-
 	const [currentValue, setCurrentValue] = useState(value);
 
 	useEffect(() => {
@@ -39,87 +35,86 @@ const FormField = ({ element, value, onChange }: Props) => {
 		onChange(newValue);
 	};
 
-	const components = {
-		Input: () => (
-			<div>
-				<Input
-					type='text'
-					value={currentValue}
-					onChange={(e) => handleValueChange(e.target.value)}
-					placeholder='Enter your answer here'
-					className='border border-gray-300 p-2 rounded-lg'
-				/>
-				<p className='text-xs text-gray-500 mt-1'>
-					Please provide a detailed answer.
-				</p>
-			</div>
-		),
-		Switch: () => (
-			<div className='relative inline-flex items-center'>
-				<Switch
-					checked={Boolean(currentValue)}
-					onChange={(e) =>
-						handleValueChange((e.target as HTMLInputElement).checked.toString())
-					}
-					className='transition-colors duration-300 ease-in-out'
-				/>
-			</div>
-		),
-		Textarea: () => (
-			<Textarea
-				value={currentValue}
-				onChange={(e) => handleValueChange(e.target.value)}
-				placeholder='Type your text here'
-				className='border border-gray-300 p-2 rounded-lg'
-			/>
-		),
-		Select: () => (
-			<Select onValueChange={handleValueChange} value={currentValue}>
-				<SelectTrigger className='border border-gray-300 p-2 rounded-lg'>
-					<SelectValue>{currentValue || 'Select an option'}</SelectValue>
-				</SelectTrigger>
-				<SelectContent>
+	const handleSwitchChange = () => {
+		const newValue = currentValue === 'Yes' ? 'No' : 'Yes';
+		handleValueChange(newValue);
+	};
+
+	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+		handleValueChange(e.target.value);
+	};
+
+	const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+		handleValueChange(e.target.value);
+	};
+
+	const components = useMemo(
+		() => ({
+			Input: () => (
+				<Input type='text' value={currentValue} onChange={handleInputChange} />
+			),
+			Switch: () => (
+				<div className='flex items-center space-x-4'>
+					<Switch
+						checked={currentValue === 'Yes'}
+						onCheckedChange={handleSwitchChange}
+						className='p-0 rounded-lg'
+					/>
+					<span>{currentValue === 'Yes' ? 'Yes' : 'No'}</span>
+				</div>
+			),
+			Textarea: () => (
+				<Textarea value={currentValue} onChange={handleTextareaChange} />
+			),
+			Select: () => (
+				<Select onValueChange={handleValueChange} value={currentValue}>
+					<SelectTrigger className='border border-gray-300 p-2 rounded-lg'>
+						<SelectValue>{currentValue || 'Select an option'}</SelectValue>
+					</SelectTrigger>
+					<SelectContent>
+						{element.fieldOptions.map((option) => (
+							<SelectItem key={option.id} value={option.text}>
+								{option.text}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			),
+			RadioGroup: () => (
+				<RadioGroup onValueChange={handleValueChange}>
 					{element.fieldOptions.map((option) => (
-						<SelectItem key={option.id} value={option.text}>
-							{option.text}
-						</SelectItem>
-					))}
-				</SelectContent>
-			</Select>
-		),
-		RadioGroup: () => (
-			<RadioGroup onValueChange={handleValueChange} value={currentValue}>
-				{element?.fieldOptions?.length > 0 ? (
-					element.fieldOptions.map((option) => (
-						<div key={option.id} className='flex items-center space-x-2'>
+						<div
+							key={`${option.text} ${option.value}`}
+							className='flex items-center space-x-2'
+						>
 							<FormControl>
 								<RadioGroupItem
-									value={option.text}
-									id={option.text}
-									className='custom-radio'
+									value={`answerId_${option.id}`}
+									id={option?.value?.toString() || `answerId_${option.id}`}
 								>
 									{option.text}
 								</RadioGroupItem>
 							</FormControl>
-							<Tippy content='Select this option'>
-								<Label className='text-base cursor-pointer'>
-									{option.text}
-								</Label>
-							</Tippy>
+							<Label className='text-base'>{option.text}</Label>
 						</div>
-					))
-				) : (
-					<p>No options available</p>
-				)}
-			</RadioGroup>
-		),
-	};
+					))}
+				</RadioGroup>
+			),
+		}),
+		[currentValue, element.fieldOptions]
+	);
 
-	const fieldType = element.fieldType ?? 'Input';
+	if (!element) return <div>Error: Element is missing</div>;
 
-	const Component = components[fieldType];
-
-	return Component ? <Component /> : null;
+	return (
+		<>
+			{element.fieldType && components[element.fieldType] ? (
+				components[element.fieldType]()
+			) : (
+				<div>Invalid field type</div>
+			)}
+		</>
+	);
 };
 
 export default FormField;
