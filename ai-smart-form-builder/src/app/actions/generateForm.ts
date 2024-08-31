@@ -32,7 +32,7 @@ function getEnvVar(name: string, defaultValue?: string): any {
 
 // Initialize the generative model with the API key
 const genAI = new GoogleGenerativeAI(getEnvVar('GOOGLE_GEN_AI_KEY'));
-const modelName = getEnvVar('GEN_AI_MODEL_NAME', 'gemini-1.5-pro-latest');
+const modelName = getEnvVar('GEN_AI_MODEL_NAME', 'gemini-1.5-flash-latest');
 const model = genAI.getGenerativeModel({ model: modelName });
 
 const CONFIG = {
